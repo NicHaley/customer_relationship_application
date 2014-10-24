@@ -122,12 +122,26 @@ class CRM
     puts "[3] Email"
     puts "[4] Notes"
     user_select = gets.chomp.to_i
-    (search = first_name) if user_select == 1
-    (search = last_name) if user_select == 2
-    (search = email) if user_select == 3
-    (search = notes) if user_select == 4
-    @rolodex.contacts.each do |contact|
-      puts "#{contact.search}"
+    if user_select == 1
+      puts "List of first names:"
+      @rolodex.contacts.each do |contact|
+        puts "#{contact.first_name}"
+      end
+    elsif user_select == 2
+      puts "List of last names:"
+      @rolodex.contacts.each do |contact|
+        puts "#{contact.last_name}"
+      end
+    elsif user_select == 3
+      puts "List of emails:"
+      @rolodex.contacts.each do |contact|
+        puts "#{contact.email}"
+      end
+    elsif user_select == 4
+      puts "List of notes:"
+      @rolodex.contacts.each do |contact|
+        puts "#{contact.note}"
+      end
     end
   end
 end
