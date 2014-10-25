@@ -4,6 +4,7 @@ require_relative "./rolodex"
 #Menu options: prints menu and gathers input
 class CRM
   attr_reader :crm_name
+  $contact_found = false
 
   def initialize(crm_name)
     @crm_name = crm_name    #Needed to name this CRM (ie. for a company name)
@@ -44,7 +45,6 @@ class CRM
     search_contact if user_selected == 4
     display_contacts if user_selected == 5
     display_attributes if user_selected == 6
-    exit if user_selected == 7
   end
 
   def contact_display(contact)
@@ -87,6 +87,7 @@ class CRM
     puts "Are you sure you would like to delete this contact?"
     puts "[1] Yes"
     puts "[2] No"
+    print "Enter a number:"
     user_select = gets.chomp.to_i
 
     if user_select == 1
@@ -103,26 +104,38 @@ class CRM
     puts "Search:"
     puts "[1] By ID"
     puts "[2] By name"
+    print "Enter a number:"
     user_select = gets.chomp.to_i
 
     if user_select == 1
       print "Please enter ID now: "
       id_input = gets.chomp.to_i
       contact_selec = @rolodex.contacts[id_input]
-      puts "You have selected:"
-      contact_display(contact_selec)
+      if @rolodex.contacts.any? {|x| x == contact_selec}
+        puts "You have selected:"
+        contact_display(contact_selec)
+        $contact_found = true
+      else
+        $contact_found = false
+      end
 
     elsif user_select == 2
       print "Please enter first name now: "
       name_input = gets.chomp.to_s
-      name_search = @rolodex.contacts.find do |contact| 
+      name_search = @rolodex.contacts.each do |contact| 
         if contact.first_name.downcase == name_input.downcase
           contact_selec = contact
           puts "You have selected:"
           contact_display(contact_selec)
+          $contact_found = true
+        else
+          $contact_found = false
         end
       end
     end 
+    if $contact_found == false
+        puts "No one with that name was found in the directory"
+    end
     contact_selec
   end
 
@@ -142,6 +155,7 @@ class CRM
     puts "[2] Last name"
     puts "[3] Email"
     puts "[4] Notes"
+    print "Enter a number:"
     user_select = gets.chomp.to_i
 
     if user_select == 1
