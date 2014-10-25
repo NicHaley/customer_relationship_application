@@ -14,7 +14,7 @@ class CRM
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
-    puts "[4] Search by ID"
+    puts "[4] Search a contact"
     puts "[5] Display all the contacts"
     puts "[6] Show attributes"
     puts "[7] Exit"
@@ -42,6 +42,13 @@ class CRM
     display_contacts if user_selected == 5
     display_attributes if user_selected == 6
     exit if user_selected == 7
+  end
+
+  def contact_display(contact)
+    puts "Name: #{contact.first_name} #{contact.last_name}"
+    puts "Email: #{contact.email}"
+    puts "Notes: #{contact.note}"
+    puts "Contact ID: #{contact.id}"
   end
 
   def add_new_contact
@@ -100,15 +107,19 @@ class CRM
       puts "#{spec_contact.first_name} #{spec_contact.last_name}"
       puts "Email: #{spec_contact.email}"
       puts "Notes: #{spec_contact.note}"
+
     elsif user_select == 2
       print "Please enter first name now: "
-      name_input = gets.chomp.to_s.downcase
-      name_search = @rolodex.contacts.downcase.include?(name_input)
-      if name_search == true
-        puts "Name search was true"
-      else
-        puts "Name search failed"
+      name_input = gets.chomp.to_s
+      name_search = @rolodex.contacts.find do |contact| 
+        if contact.first_name.downcase == name_input.downcase
+          puts "You have selected:"
+          contact_display(contact)
+        else
+          puts "Your search did not match any names in our directory"
+        end
       end
+
     elsif user_select == 3
       puts "Returning to main menu"
       display_contacts
@@ -118,10 +129,7 @@ class CRM
 
   def display_contacts
     @rolodex.contacts.each do |contact|
-      puts "#{contact.first_name} #{contact.last_name}"
-      puts "Email: #{contact.email}"
-      puts "Notes: #{contact.note}"
-      puts "Contact ID: #{contact.id}"
+      contact_display(contact)
     end
   end
 
