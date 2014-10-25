@@ -83,7 +83,7 @@ class CRM
   end
 
   def delete_contact
-    id_input = search_contact
+    contact = search_contact
     puts "Are you sure you would like to delete this contact?"
     puts "[1] Yes"
     puts "[2] No"
@@ -91,7 +91,7 @@ class CRM
 
     if user_select == 1
       puts "Contact deleted"
-      @rolodex.contacts.delete_at(id_input)
+      @rolodex.contacts.delete(contact)
 
     elsif user_select == 2
       puts "Contact delete cancelled"
@@ -120,8 +120,6 @@ class CRM
           contact_selec = contact
           puts "You have selected:"
           contact_display(contact_selec)
-        else
-          puts "Your search did not match any names in our directory"
         end
       end
     end 
