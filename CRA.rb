@@ -86,9 +86,10 @@ class CRM
   end
 
   def display_a_contact
-    puts "Do you have a contact ID?"
-    puts "[1] Yes"
-    puts "[2] No"
+    puts "How would you like to search?"
+    puts "[1] By ID"
+    puts "[2] By name"
+    puts "[3] Cancel"
     user_select = gets.chomp.to_i
 
     if user_select == 1
@@ -100,7 +101,16 @@ class CRM
       puts "Email: #{spec_contact.email}"
       puts "Notes: #{spec_contact.note}"
     elsif user_select == 2
-      puts "Please refer to contact directory:"
+      print "Please enter first name now: "
+      name_input = gets.chomp.to_s.downcase
+      name_search = @rolodex.contacts.downcase.include?(name_input)
+      if name_search == true
+        puts "Name search was true"
+      else
+        puts "Name search failed"
+      end
+    elsif user_select == 3
+      puts "Returning to main menu"
       display_contacts
     end 
     id_input
