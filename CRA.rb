@@ -130,6 +130,7 @@ class CRM
     puts "- - - - - - - - - - - - - -"
     puts "Full contact list:"
     @rolodex.contacts.each do |contact|
+      puts "- - - - - - - - - - - - - -"
       contact_display(contact)
     end
   end
