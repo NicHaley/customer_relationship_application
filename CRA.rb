@@ -11,6 +11,7 @@ class CRM
   end
 
   def print_main_menu
+    puts "- - - - - - - - - - - - - -"
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
@@ -18,7 +19,7 @@ class CRM
     puts "[5] Display all the contacts"
     puts "[6] Show attributes"
     puts "[7] Exit"
-    puts "Enter a number: "
+    print "Enter a number: "
   end
 
   def main_menu
@@ -38,7 +39,7 @@ class CRM
     add_new_contact if user_selected == 1
     modify_contact if user_selected == 2
     delete_contact if user_selected == 3
-    display_a_contact if user_selected == 4
+    search_contact if user_selected == 4
     display_contacts if user_selected == 5
     display_attributes if user_selected == 6
     exit if user_selected == 7
@@ -52,6 +53,7 @@ class CRM
   end
 
   def add_new_contact
+    puts "- - - - - - - - - - - - - -"
     print "Enter First Name: "
     first_name = gets.chomp
     print "Enter Last Name: "
@@ -66,7 +68,9 @@ class CRM
   end
 
   def modify_contact
-    id_input = display_a_contact
+    puts "- - - - - - - - - - - - - -"
+    puts "Which contact would you like to modify?"
+    id_input = search_contact
     puts "Please enter new information:"
     print "Enter First Name: "
       @rolodex.contacts[id_input].first_name = gets.chomp
@@ -83,17 +87,19 @@ class CRM
     puts "Are you sure you would like to delete this contact?"
     puts "[1] Yes"
     puts "[2] No"
-    user_mod_select = gets.chomp.to_i
-    if user_mod_select == 1
+    user_select = gets.chomp.to_i
+
+    if user_select == 1
       puts "Contact deleted"
       @rolodex.contacts.delete_at(id_input)
-    elsif user_mod_select == 2
+
+    elsif user_select == 2
       puts "Contact delete cancelled"
     end
   end
 
-  def display_a_contact
-    puts "How would you like to search?"
+  def search_contact
+    puts "Search:"
     puts "[1] By ID"
     puts "[2] By name"
     puts "[3] Cancel"
@@ -122,7 +128,6 @@ class CRM
 
     elsif user_select == 3
       puts "Returning to main menu"
-      display_contacts
     end 
     id_input
   end
@@ -140,21 +145,25 @@ class CRM
     puts "[3] Email"
     puts "[4] Notes"
     user_select = gets.chomp.to_i
+
     if user_select == 1
       puts "List of first names:"
       @rolodex.contacts.each do |contact|
         puts "#{contact.first_name}"
       end
+
     elsif user_select == 2
       puts "List of last names:"
       @rolodex.contacts.each do |contact|
         puts "#{contact.last_name}"
       end
+
     elsif user_select == 3
       puts "List of emails:"
       @rolodex.contacts.each do |contact|
         puts "#{contact.email}"
       end
+
     elsif user_select == 4
       puts "List of notes:"
       @rolodex.contacts.each do |contact|
