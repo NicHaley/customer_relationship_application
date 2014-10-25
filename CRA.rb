@@ -12,6 +12,7 @@ class CRM
 
   def print_main_menu
     puts "- - - - - - - - - - - - - -"
+    puts "          Main Menu \n\n"
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
@@ -23,7 +24,8 @@ class CRM
   end
 
   def main_menu
-    puts "Welcome to #{@crm_name}!"
+    puts
+    puts "    Welcome to #{@crm_name}!"
     while true  #make infinite loop that breaks if user selects exit
       print_main_menu
       user_selected = gets.chomp.to_i
@@ -68,22 +70,20 @@ class CRM
   end
 
   def modify_contact
-    puts "- - - - - - - - - - - - - -"
-    puts "Which contact would you like to modify?"
-    id_input = search_contact
+    contact = search_contact
     puts "Please enter new information:"
     print "Enter First Name: "
-      @rolodex.contacts[id_input].first_name = gets.chomp
+      contact.first_name = gets.chomp
     print "Enter Last Name: "
-      @rolodex.contacts[id_input].last_name = gets.chomp
+      contact.last_name = gets.chomp
     print "Enter Email Address: "
-      @rolodex.contacts[id_input].email = gets.chomp
+      contact.email = gets.chomp
     print "Enter a Note: "
-     @rolodex.contacts[id_input].note = gets.chomp
+     contact.note = gets.chomp
   end
 
   def delete_contact
-    id_input = display_a_contact
+    id_input = search_contact
     puts "Are you sure you would like to delete this contact?"
     puts "[1] Yes"
     puts "[2] No"
@@ -99,46 +99,45 @@ class CRM
   end
 
   def search_contact
+    puts "- - - - - - - - - - - - - -"
     puts "Search:"
     puts "[1] By ID"
     puts "[2] By name"
-    puts "[3] Cancel"
     user_select = gets.chomp.to_i
 
     if user_select == 1
       print "Please enter ID now: "
       id_input = gets.chomp.to_i
-      spec_contact = @rolodex.contacts[id_input]
+      contact_selec = @rolodex.contacts[id_input]
       puts "You have selected:"
-      puts "#{spec_contact.first_name} #{spec_contact.last_name}"
-      puts "Email: #{spec_contact.email}"
-      puts "Notes: #{spec_contact.note}"
+      contact_display(contact_selec)
 
     elsif user_select == 2
       print "Please enter first name now: "
       name_input = gets.chomp.to_s
       name_search = @rolodex.contacts.find do |contact| 
         if contact.first_name.downcase == name_input.downcase
+          contact_selec = contact
           puts "You have selected:"
-          contact_display(contact)
+          contact_display(contact_selec)
         else
           puts "Your search did not match any names in our directory"
         end
       end
-
-    elsif user_select == 3
-      puts "Returning to main menu"
     end 
-    id_input
+    contact_selec
   end
 
   def display_contacts
+    puts "- - - - - - - - - - - - - -"
+    puts "Full contact list:"
     @rolodex.contacts.each do |contact|
       contact_display(contact)
     end
   end
 
   def display_attributes
+    puts "- - - - - - - - - - - - - -"
     puts "What would you like to display?"
     puts "[1] First name"
     puts "[2] Last name"
